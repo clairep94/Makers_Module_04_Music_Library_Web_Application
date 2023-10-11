@@ -15,7 +15,8 @@ def test_home_page(db_connection, page, test_web_address):
 
 
 '''
-We can get Album title, 
+When we go to albums,
+We should get a list of all albums on our database.
 '''
 def test_get_albums(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
@@ -71,6 +72,8 @@ def test_get_artist(db_connection, page, test_web_address):
 def test_get_artists(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists")
+    header_one_items = page.locator("h1")
+    expect(header_one_items).to_have_text("All Artists")
     list_items = page.locator("li")
     expect(list_items).to_have_text([
         "Pixies, Rock",

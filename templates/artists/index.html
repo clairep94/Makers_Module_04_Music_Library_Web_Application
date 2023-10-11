@@ -6,14 +6,17 @@
     <title>All Artists</title>
 </head>
 <body>
-    <h1>Artists</h1>
+    <h1>All Artists</h1>
     <ul>
         {% for artist in artists %}
             <li>
-                <a href = "/artists/{{artist.id}}"><b>{{artist.name}}</b>, {{artist.genre}}</a>        
+                <a href = "/artists/{{artist.id}}"><b>{{artist.name}}</b></a>, {{artist.genre}}       
             </li>
         {% endfor %}
     </ul>
+
+    <h3><a href="/artists/new">Add a New Artist</a></h3>
+    <h3><a href="/">Homepage</a></h3>
     
 </body>
 </html>

@@ -36,10 +36,10 @@ class ArtistRepository:
         return None
     
     def find_all_albums_by_artist(self, artist_id):
-        rows = self._connection.execute('SELECT title, release_year FROM albums WHERE artist_id = %s', [artist_id])
+        rows = self._connection.execute('SELECT title, release_year, id FROM albums WHERE artist_id = %s', [artist_id])
         albums = []
         for row in rows:
-            album = {'title' : row["title"], 'release_year': row["release_year"]}
+            album = {'title' : row["title"], 'release_year': row["release_year"], 'id': row["id"]}
             albums.append(album)
         return albums
 

@@ -71,9 +71,9 @@ def test_find_all_albums_by_artist(db_connection):
     result = repository.find_all_albums_by_artist(1)
 
     assert result == [
-        {'title': 'Doolittle', 'release_year': 1989},
-        {'title': 'Surfer Rosa', 'release_year': 1988},
-        {'title': 'Bossanova', 'release_year': 1990}
+        {'title': 'Doolittle', 'release_year': 1989, 'id': 1},
+        {'title': 'Surfer Rosa', 'release_year': 1988, 'id': 2},
+        {'title': 'Bossanova', 'release_year': 1990, 'id': 5}
     ]
 
     
