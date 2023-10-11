@@ -6,7 +6,7 @@
     <title>Albums</title>
 </head>
 <body>
-    <h1>Albums</h1>
+    <h1>All Albums</h1>
     <ul>
       <!-- We'll use Jinja's `for` loop to iterate over all books -->
       {% for album in albums %}
@@ -17,6 +17,8 @@
       <!-- Jinja isn't Python, so we need an endfor to close the loop -->
     </ul>
 
+    <br>
+    <br>
     <h3><a href="/albums/new">Add a New Album</a></h3>
     <h3><a href="/">Homepage</a></h3>
 
