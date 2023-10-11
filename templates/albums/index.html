@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albums</title>
+</head>
+<body>
+    <h1>Albums</h1>
+    <ul>
+      <!-- We'll use Jinja's `for` loop to iterate over all books -->
+      {% for album in albums %}
+        <li>
+            <a href="/albums/{{album.album_id}}"><b>{{album.title}} ({{album.release_year}})</b></a> by {{album.artist_name}}
+        </li>
+      {% endfor %}
+      <!-- Jinja isn't Python, so we need an endfor to close the loop -->
+    </ul>
+
+    <a href="/albums/new"><b>Add a new album</b></a>
+</body>
+</html>
