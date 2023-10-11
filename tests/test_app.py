@@ -47,5 +47,36 @@ def test_get_album(db_connection, page, test_web_address):
     expect(release_year).to_have_text("Release year: 1989")
     artist_name = page.locator(".t-artist_name")
     expect(artist_name).to_have_text("Artist: Pixies")
+
+
+def test_get_artist(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists/1")
+    header_one_items = page.locator("h1")
+    expect(header_one_items).to_have_text("Pixies")
+    paragraph_items = page.locator("p")
+    expect(paragraph_items).to_have_text([
+        "Name: Pixies",
+        "Genre: Rock",
+        "Albums: "
+        ])
     
+    list_items = page.locator("li")
+    expect(list_items).to_have_text([
+        "Doolittle (1989)",
+        "Surfer Rosa (1988)",
+        "Bossanova (1990)"
+    ])
+
+def test_get_artists(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists")
+    list_items = page.locator("li")
+    expect(list_items).to_have_text([
+        "Pixies, Rock",
+        "ABBA, Pop",
+        "Taylor Swift, Pop",
+        "Nina Simone, Jazz"
+    ])
+
     

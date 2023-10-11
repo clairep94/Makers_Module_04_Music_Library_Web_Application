@@ -41,6 +41,21 @@ def new_album_page():
     return render_template('albums/new.html')
 
 
+@app.route('/artists/<int:id>', methods=['GET'])
+def get_artist(id):
+    connection = get_flask_database_connection(app)
+    artist_repository = ArtistRepository(connection)
+    artist = artist_repository.find(id)
+    artist_albums = artist_repository.find_all_albums_by_artist(id)
+    return render_template('artists/show.html', artist=artist, albums=artist_albums)
+
+@app.route('/artists', methods=['GET'])
+def get_artists():
+    connection = get_flask_database_connection(app)
+    artist_repository = ArtistRepository(connection)
+    artists = artist_repository.all()
+    return render_template('artists/index.html', artists=artists)
+
 
 
 # These lines start the server if you run this file directly

@@ -64,3 +64,16 @@ def test_delete_record(db_connection):
         Artist(2, "ABBA", "Pop"),
         Artist(4, "Nina Simone", "Jazz"),
     ]
+
+def test_find_all_albums_by_artist(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = ArtistRepository(db_connection)
+    result = repository.find_all_albums_by_artist(1)
+
+    assert result == [
+        {'title': 'Doolittle', 'release_year': 1989},
+        {'title': 'Surfer Rosa', 'release_year': 1988},
+        {'title': 'Bossanova', 'release_year': 1990}
+    ]
+
+    
