@@ -11,7 +11,7 @@
       <!-- We'll use Jinja's `for` loop to iterate over all books -->
       {% for album in albums %}
         <li>
-            <a href="/albums/{{album.album_id}}"><b>{{album.title}} ({{album.release_year}})</b></a> by {{album.artist_name}}
+          <b><a href="/albums/{{album.album_id}}">{{album.title}} ({{album.release_year}})</a></b> by {{album.artist_name}}
         </li>
       {% endfor %}
       <!-- Jinja isn't Python, so we need an endfor to close the loop -->

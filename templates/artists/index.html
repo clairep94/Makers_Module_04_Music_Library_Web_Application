@@ -10,7 +10,7 @@
     <ul>
         {% for artist in artists %}
             <li>
-                <a href = "/artists/{{artist.id}}"><b>{{artist.name}}</b></a>, {{artist.genre}}       
+                <b><a href = "/artists/{{artist.id}}">{{artist.name}}</a></b>, {{artist.genre}}       
             </li>
         {% endfor %}
     </ul>

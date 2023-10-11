@@ -35,11 +35,6 @@ def get_albums():
     albums = album_repository.all() #switched to list of dictionaries with artist_name included
     return render_template('albums/index.html', albums=albums)
 
-@app.route('/albums/new', methods=['GET'])
-def new_album_page():
-    connection = get_flask_database_connection(app)
-    return render_template('albums/new.html')
-
 
 @app.route('/artists/<int:id>', methods=['GET'])
 def get_artist(id):
