@@ -92,25 +92,18 @@ def get_new_artist_form():
     return render_template('artists/new.html')
 
 
-# POST /artist
+# POST /artist/
 # Creates a new artist
 @app.route('/artists', methods=['POST'])
 def create_new_artist():
     connection = get_flask_database_connection(app)
-    print("DB connection created")
     artist_repository = ArtistRepository(connection)
-    print("Artist repository connection created")
 
-    print("Testing request.form")
-    print(f"Form Data: {request.form}")
     name = request.form.get('name')
-    print(f"Artist:{name}")
     genre = request.form.get('genre') 
-    print(f"Genre:{genre}")
 
 
     artist = Artist(None, name, genre)
-    print(f"Artist successfully created: {artist}")
     # if not artist.is_valid():
         #return render_template('artists/new.html', artist=artist, errors=artist.generate_errors()), 400
     # if not artist_repository.is_valid():
@@ -122,6 +115,15 @@ def create_new_artist():
     return redirect(f"/artists/{artist.id}")
 
 
+# DELETE /artists/<id>/delete
+# Deletes an artist
+@app.route('/artists/<int:id>/delete', methods=['POST'])
+def delete_artist(id):
+    connection = get_flask_database_connection(app)
+    artist_repository = ArtistRepository(connection)
+    artist_repository.delete(id)
+
+    return redirect(url_for('get_artists'))
 
 
 

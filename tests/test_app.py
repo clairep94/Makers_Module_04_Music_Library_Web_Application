@@ -120,7 +120,6 @@ We should be able to click on each artist to get to their artist page
 We should be able to click on a link to Add a New Artist
 We should be able to go back to the homepage.
 '''    
-
 def test_get_artists(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists")
@@ -147,12 +146,16 @@ def test_get_artists(db_connection, page, test_web_address):
     expect(page.get_by_text("ABBA")).to_have_attribute("href", "/artists/2")
     expect(page.get_by_text("Taylor Swift")).to_have_attribute("href", "/artists/3")
     expect(page.get_by_text("Nina Simone")).to_have_attribute("href", "/artists/4")
-    # expect(page.get_by_text("Add New Artist")).to_have_attribute("href", "/artists/new")
+    expect(page.get_by_text("Add a New Artist")).to_have_attribute("href", "/artists/new")
     expect(page.get_by_text("Homepage")).to_have_attribute("href", "/")
 
 
     
-    
+'''
+When we go to the page for a single artist
+We should see the artist name and a list of all their albums, with links to the album pages.
+We should see a link to delete the artist
+'''
 def test_get_artist(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists/1")
@@ -171,3 +174,75 @@ def test_get_artist(db_connection, page, test_web_address):
         "Surfer Rosa (1988)",
         "Bossanova (1990)"
     ])
+
+    expect(page.get_by_text("Doolittle (1989)")).to_have_attribute("href", "/albums/1")
+    expect(page.get_by_text("Surfer Rosa (1988)")).to_have_attribute("href", "/albums/2")
+    expect(page.get_by_text("Bossanova (1990)")).to_have_attribute("href", "/albums/5")
+    expect(page.get_by_text("Homepage")).to_have_attribute("href", "/")
+
+    expect(page.locator('button:has-text("Delete Artist")')) != None #button with Delete Artist exists
+
+
+'''
+When we go to Add a New Artist
+We should see a form to create a new artist with a field for Name and a field for Genre.
+When we click Create Artist, we should be linked to the artist page for the new artist.
+When we click Back to All Artists, we should see that the new artist has been added to all artists
+'''
+def test_create_artist(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists/new")
+    header_one_items = page.locator("h1")
+    expect(header_one_items).to_have_text("Add a New Artist")
+
+    page.fill("input[name='name']", "The Beatles")
+    page.fill("input[name='genre']", "Pop")
+    page.click("text=Create Artist")
+
+    title_element = page.locator(".t-name")
+    expect(title_element).to_have_text("Name: The Beatles")
+
+    author_element = page.locator(".t-genre")
+    expect(author_element).to_have_text("Genre: Pop")
+
+    page.click("text=Back to All Artists")
+    list_items = page.locator("li")
+    expect(list_items).to_have_text([
+        "Pixies, Rock",
+        "ABBA, Pop",
+        "Taylor Swift, Pop",
+        "Nina Simone, Jazz",
+        "The Beatles, Pop"
+    ])
+    expect(page.get_by_text("The Beatles")).to_have_attribute("href", "/artists/5")
+
+
+
+'''
+If we create a new artist without a name or genre,
+We see an error message
+
+'''
+
+'''
+When we delete an artist, we no longer see it in the artists index
+'''
+def test_delete_artist(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists/new")
+
+    page.fill("input[name='name']", "The Beatles")
+    page.fill("input[name='genre']", "Pop")
+    page.click("text=Create Artist")
+
+    page.click("text=Delete Artist")
+    list_items = page.locator("li")
+    expect(list_items).to_have_text([
+        "Pixies, Rock",
+        "ABBA, Pop",
+        "Taylor Swift, Pop",
+        "Nina Simone, Jazz"
+    ])
+
+
+
