@@ -63,8 +63,9 @@ def test_create_record(db_connection):
     db_connection.seed("seeds/music_library.sql")
     repository = AlbumRepository(db_connection)
 
-    repository.create(Album(None, "Trompe le Monde", 1991, 1))
+    album = repository.create(Album(None, "Trompe le Monde", 1991, 1))
 
+    assert album == (Album(13, "Trompe le Monde", 1991, 1))
     result = repository.all()
     assert result == [
         {"album_id": 1, "title": "Doolittle", "artist_name": "Pixies", "release_year": 1989},

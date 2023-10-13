@@ -38,7 +38,7 @@ def test_create_record(db_connection):
     db_connection.seed("seeds/music_library.sql")
     repository = ArtistRepository(db_connection)
 
-    repository.create(Artist(None, "The Beatles", "Rock"))
+    assert repository.create(Artist(None, "The Beatles", "Pop")) == Artist(5, "The Beatles", "Pop")
 
     result = repository.all()
     assert result == [
@@ -46,7 +46,7 @@ def test_create_record(db_connection):
         Artist(2, "ABBA", "Pop"),
         Artist(3, "Taylor Swift", "Pop"),
         Artist(4, "Nina Simone", "Jazz"),
-        Artist(5, "The Beatles", "Rock"),
+        Artist(5, "The Beatles", "Pop"),
     ]
 
 """

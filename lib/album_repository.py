@@ -34,8 +34,11 @@ class AlbumRepository:
     # Create a new album
     # Do you want to get its id back? Look into RETURNING id;
     def create(self, album:Album):
-        self._connection.execute('INSERT INTO albums (title, release_year, artist_id) VALUES (%s, %s, %s)', [album.title, album.release_year, album.artist_id])
-        return None
+        rows = self._connection.execute('INSERT INTO albums (title, release_year, artist_id) VALUES (%s, %s, %s) RETURNING id', [
+            album.title, album.release_year, album.artist_id])
+        row = rows[0]
+        album.id = row['id']
+        return album
 
     # Delete an album by their id
     def delete(self, id):

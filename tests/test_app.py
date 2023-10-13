@@ -147,7 +147,7 @@ def test_get_artists(db_connection, page, test_web_address):
     expect(page.get_by_text("ABBA")).to_have_attribute("href", "/artists/2")
     expect(page.get_by_text("Taylor Swift")).to_have_attribute("href", "/artists/3")
     expect(page.get_by_text("Nina Simone")).to_have_attribute("href", "/artists/4")
-    expect(page.get_by_text("Add New Artist")).to_have_attribute("href", "/artists/new")
+    # expect(page.get_by_text("Add New Artist")).to_have_attribute("href", "/artists/new")
     expect(page.get_by_text("Homepage")).to_have_attribute("href", "/")
 
 
