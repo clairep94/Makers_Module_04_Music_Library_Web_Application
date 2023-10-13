@@ -24,7 +24,6 @@ class AlbumRepository:
     def find(self, id):
         rows = self._connection.execute(
             'SELECT albums.id AS album_id, albums.title, artists.name as artist_name, albums.release_year FROM artists JOIN albums ON albums.artist_id = artists.id WHERE albums.id = %s', [id])
-            # 'SELECT * FROM albums_with_artists WHERE id = %s', [id])
         row = rows[0]
         return {"album_id": row["album_id"],
                 "title": row["title"],
@@ -46,3 +45,13 @@ class AlbumRepository:
             'DELETE FROM albums WHERE id = %s', [id]
         )
         return None
+
+
+    # Find all artists and artist_ids
+    def find_artist_id_by_artist_name(self, artist_name):
+        artist_name = artist_name.title()
+        artist_row = self._connection.execute('SELECT id, name FROM artists WHERE name = %s', [artist_name])
+        if artist_row == []:
+            return None
+        else:
+            return artist_row[0]['id']

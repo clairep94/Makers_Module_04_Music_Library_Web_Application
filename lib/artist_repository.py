@@ -37,6 +37,7 @@ class ArtistRepository:
             'DELETE FROM artists WHERE id = %s', [artist_id])
         return None
     
+    # Find all albums by a certain artist
     def find_all_albums_by_artist(self, artist_id):
         rows = self._connection.execute('SELECT title, release_year, id FROM albums WHERE artist_id = %s', [artist_id])
         albums = []
@@ -44,4 +45,3 @@ class ArtistRepository:
             album = {'title' : row["title"], 'release_year': row["release_year"], 'id': row["id"]}
             albums.append(album)
         return albums
-

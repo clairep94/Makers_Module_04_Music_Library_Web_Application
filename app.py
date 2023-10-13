@@ -19,54 +19,6 @@ def home_page():
     return render_template('homepage.html')
 
 
-# == ALBUMS ==
-# GET /albums
-# Returns a list of albums
-@app.route('/albums', methods=['GET'])
-def get_albums():
-    connection = get_flask_database_connection(app)
-    album_repository = AlbumRepository(connection)
-    albums = album_repository.all() #switched to list of dictionaries with artist_name included
-    return render_template('albums/index.html', albums=albums)
-
-# GET /albums/<id>
-# Returns a single album
-@app.route('/albums/<int:id>', methods=['GET'])
-def get_album(id):
-    connection = get_flask_database_connection(app)
-    album_repository = AlbumRepository(connection)
-    album = album_repository.find(id)
-    return render_template('albums/show.html', album=album)
-
-# GET /albums/new
-# Returns a form to create a new album
-@app.route('/albums/new', methods=['GET'])
-def get_new_album_form():
-    return render_template('albums/new.html')
-
-
-# POST /albums
-# Creates a new album - if the artist does not exist, it creates a new artist as well.
-@app.route('/albums', methods=['POST'])
-def create_new_album():
-    connection = get_flask_database_connection(app)
-    album_repository = AlbumRepository(connection)
-    artist_repository = ArtistRepository(connection)
-    title = request.form['title']
-    artist_name = request.form['artist_name'] #TEST THIS AFTER
-    release_year = request.form['release_year']
-    print(f"Title:{title}")
-    print(f"Artist:{artist_name}")
-    print(f"Release Year: {release_year}")    
-
-    # FIND ARTIST_ID FOR ARTIST.
-    # If no artist_name found, create new_artist() AND
-    # create new_album()
-
-
-
-
-
 # == ARTISTS ==
 
 @app.route('/artists/<int:id>', methods=['GET'])
@@ -124,6 +76,75 @@ def delete_artist(id):
     artist_repository.delete(id)
 
     return redirect(url_for('get_artists'))
+
+
+
+
+
+# == ALBUMS =============
+
+# GET /albums
+# Returns a list of albums
+@app.route('/albums', methods=['GET'])
+def get_albums():
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    albums = album_repository.all() #switched to list of dictionaries with artist_name included
+    return render_template('albums/index.html', albums=albums)
+
+# GET /albums/<id>
+# Returns a single album
+@app.route('/albums/<int:id>', methods=['GET'])
+def get_album(id):
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    album = album_repository.find(id)
+    return render_template('albums/show.html', album=album)
+
+# GET /albums/new
+# Returns a form to create a new album
+@app.route('/albums/new', methods=['GET'])
+def get_new_album_form():
+    return render_template('albums/new.html')
+
+
+# POST /albums
+# Creates a new album - if the artist does not exist, it creates a new artist as well.
+@app.route('/albums', methods=['POST'])
+def create_new_album():
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    title = request.form.get('title')
+    artist_name = request.form.get('artist_name')
+    release_year = request.form.get('release_year')
+
+    # FIND ALBUM name and ARTIST NAME for ALBUM -- no duplicates
+
+    # FIND ARTIST_ID FOR ARTIST.
+    # If no artist_name found, link to new_artist()
+    artist_id = album_repository.find_artist_id_by_artist_name(artist_name)
+    if artist_id == None:
+        return redirect(url_for('create_artist')) #show error message first??
+    else:
+    # Create new album
+        album = Album(None, title, release_year, artist_id)
+        album = album_repository.create(album) #no longer returning none.
+        print(f"Album successfully created: {album}")
+    return redirect(f"/albums/{album.id}")
+
+
+# DELETE /albums/<id>/delete
+# Deletes an album
+@app.route('/albums/<int:id>/delete', methods=['POST'])
+def delete_album(id):
+    id = int(id)
+    connection = get_flask_database_connection(app)
+    album_repository = AlbumRepository(connection)
+    print(f"accessing /albums/{id}/delete")
+    album_repository.delete(id)
+
+    return redirect(url_for('get_albums'))
+
 
 
 

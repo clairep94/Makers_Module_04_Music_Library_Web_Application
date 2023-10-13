@@ -8,12 +8,17 @@
 <body>
     <h1>{{ album.title }}</h1>
     <p class="t-title"><b>Title:</b> {{album.title}} </p>
-    <p class="t-release_year"><b>Release year:</b> {{ album.release_year }}</p>     
+    <p class="t-release_year"><b>Release year:</b> {{ album.release_year }}</p>   
     <p class="t-artist_name"><b>Artist:</b> <a href="/artists{{album.artist_id}}">{{ album.artist_name }}</a></p>
 
     <br>
     <br>
-    <h3><a href="/albums">Back to all albums</a></h3>
+
+    <form action="/albums/{{album.album_id}}/delete" method="post">
+        <input type="submit" value="Delete Album">
+    </form>
+
+    <h3><a href="/albums">Back to All Albums</a></h3>
     <h3><a href="/">Homepage</a></h3>
 
 </body>

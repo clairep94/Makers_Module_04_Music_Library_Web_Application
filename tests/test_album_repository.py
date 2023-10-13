@@ -27,21 +27,6 @@ def test_get_all_records(db_connection): # See conftest.py to learn what `db_con
         {"album_id": 12, "title": "Ring Ring", "artist_name": "ABBA", "release_year": 1973}
         ]
 
-    # assert albums == [
-    #     Album(1, "Doolittle", 1989, 1),
-    #     Album(2, "Surfer Rosa", 1988, 1),
-    #     Album(3, "Waterloo", 1974, 2),
-    #     Album(4, "Super Trouper", 1980, 2),
-    #     Album(5, "Bossanova", 1990, 1),
-    #     Album(6, "Lover", 2019, 3),
-    #     Album(7, "Folklore", 2020, 3),
-    #     Album(8, "I Put a Spell on You", 1965, 4),
-    #     Album(9, "Baltimore", 1978, 4),
-    #     Album(10, "Here Comes the Sun", 1971, 4),
-    #     Album(11, "Fodder on My Wings", 1982, 4),
-    #     Album(12, "Ring Ring", 1973, 2)
-    # ]
-
 """
 When we call AlbumRepository#find
 We get a single Album object reflecting the seed data.
@@ -106,4 +91,17 @@ def test_delete_record(db_connection):
         {"album_id": 11, "title": "Fodder on My Wings", "artist_name": "Nina Simone", "release_year": 1982},
         {"album_id": 12, "title": "Ring Ring", "artist_name": "ABBA", "release_year": 1973}
         ]
+
+'''
+When we call AlbumRepository#find_artist_id_by_artist_name
+When we search for an artist that is not yet added, we get None
+When we search for an artist that is added, we get their id
+'''
+
+def test_find_artist_id_by_artist_name(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = AlbumRepository(db_connection)
+
+    assert repository.find_artist_id_by_artist_name("The Beatles") == None
+    assert repository.find_artist_id_by_artist_name("pixies") == 1
 
