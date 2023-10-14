@@ -136,6 +136,12 @@ We see an error message
 '''
 
 '''
+When we try to Create a New Artist where there is an identical artist of the same name and genre,
+We see an error message.
+'''
+
+
+'''
 When we delete an artist, we no longer see it in the artists index
 '''
 def test_delete_artist(db_connection, page, test_web_address):
@@ -158,7 +164,7 @@ def test_delete_artist(db_connection, page, test_web_address):
 '''
 When we delete an artist, we no longer see its albums in all albums
 '''
-def test_delete_artist(db_connection, page, test_web_address):
+def test_delete_artist2(db_connection, page, test_web_address):
     db_connection.seed("seeds/music_library.sql")
     page.goto(f"http://{test_web_address}/artists/1")
 
@@ -280,5 +286,29 @@ def test_get_album(db_connection, page, test_web_address):
 
 
 
+'''
+When we go to Add a New Album
+We should see a form to create a new album with a field for the name and a field for the genre.
+If the album's artist already exists, we should be transported to the new page for the album created.
+When we go to All Albums, we should see the new album added to the list of albums
+When we go to the album's artist page, we should see the new album to the list of albums for that artist.
+
+If the album's artist does not already exist, we should be notified, and provided a link to first create a new artist.
+'''
 
 
+'''
+If we create a new album without a name, artist or release year,
+We see an error message
+'''
+
+
+'''
+When we delete an album, we no longer see it in the albums index
+'''
+
+
+'''
+When we try to Create a New Album where there is an identical album of the same name, artist, and release year,
+We see an error message.
+'''
