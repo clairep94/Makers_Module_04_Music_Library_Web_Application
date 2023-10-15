@@ -324,6 +324,27 @@ We see an error message
 '''
 When we delete an album, we no longer see it in the albums index
 '''
+def test_delete_album(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/albums/1")
+    page.click("text=Delete Album")
+    list_items = page.locator("li")
+    expect(list_items).to_have_text([
+        "Surfer Rosa (1988) by Pixies",
+        "Waterloo (1974) by ABBA",
+        "Super Trouper (1980) by ABBA",
+        "Bossanova (1990) by Pixies",
+        "Lover (2019) by Taylor Swift",
+        "Folklore (2020) by Taylor Swift",
+        "I Put a Spell on You (1965) by Nina Simone",
+        "Baltimore (1978) by Nina Simone",
+        "Here Comes the Sun (1971) by Nina Simone",
+        "Fodder on My Wings (1982) by Nina Simone",
+        "Ring Ring (1973) by ABBA"
+    ])
+
+
+
 
 
 '''
