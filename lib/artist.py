@@ -14,3 +14,23 @@ class Artist:
     # This method makes it look nicer when we print an Artist
     def __repr__(self):
         return f"Artist({self.id}, {self.name}, {self.genre})"
+
+    # These next two methods will be used by the controller to check if
+    # books are valid and if not show errors to the user.
+    def is_valid(self):
+        if self.name == None or self.name == "":
+            return False
+        if self.genre == None or self.genre == "":
+            return False
+        return True
+
+    def generate_errors(self):
+        errors = []
+        if self.name == None or self.name == "":
+            errors.append("Name can't be blank")
+        if self.genre == None or self.genre == "":
+            errors.append("Genre can't be blank")
+        if len(errors) == 0:
+            return None
+        else:
+            return ", ".join(errors)

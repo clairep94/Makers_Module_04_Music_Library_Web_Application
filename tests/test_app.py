@@ -128,17 +128,35 @@ def test_create_artist(db_connection, page, test_web_address):
     expect(page.get_by_text("The Beatles")).to_have_attribute("href", "/artists/5")
 
 
-
+#TODO
 '''
 If we create a new artist without a name or genre,
 We see an error message
-
 '''
+def test_error_duplicate_artist(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists/new")
 
+    page.click("text=Create Artist")
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text("There were errors with your submission: Name can't be blank, Genre can't be blank")
+
+
+
+#TODO
 '''
 When we try to Create a New Artist where there is an identical artist of the same name and genre,
 We see an error message.
 '''
+def test_error_duplicate_artist(db_connection, page, test_web_address):
+    db_connection.seed("seeds/music_library.sql")
+    page.goto(f"http://{test_web_address}/artists/new")
+
+    page.fill("input[name='name']", "Pixies")
+    page.fill("input[name='genre']", "Rock")
+    page.click("text=Create Artist")
+    errors = page.locator(".t-errors")
+    expect(errors).to_have_text("There were errors with your submission: Artist is already in database")
 
 
 '''
@@ -280,12 +298,12 @@ def test_get_album(db_connection, page, test_web_address):
     anchor_tags = page.locator("a")
     expect(anchor_tags).to_have_text([
         "Pixies",
-        "Back to all albums",
+        "Back to All Albums",
         "Homepage"
     ])
 
 
-
+#TODO
 '''
 When we go to Add a New Album
 We should see a form to create a new album with a field for the name and a field for the genre.

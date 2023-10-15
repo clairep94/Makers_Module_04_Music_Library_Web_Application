@@ -49,6 +49,19 @@ def test_create_record(db_connection):
         Artist(5, "The Beatles", "Pop"),
     ]
 
+'''
+When we call ArtistRepository#is_duplicate
+We get True if the name and genre for a proposed artist already exists in the db
+'''
+def test_is_duplicate(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = ArtistRepository(db_connection)
+
+    assert repository.is_duplicate("pixies", "Rock") == True
+
+
+
+
 """
 When we call ArtistRepository#delete
 We remove a record from the database.

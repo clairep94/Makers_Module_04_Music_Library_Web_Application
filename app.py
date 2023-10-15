@@ -54,15 +54,13 @@ def create_new_artist():
     name = request.form.get('name')
     genre = request.form.get('genre') 
 
-
     artist = Artist(None, name, genre)
-    # if not artist.is_valid():
-        #return render_template('artists/new.html', artist=artist, errors=artist.generate_errors()), 400
-    # if not artist_repository.is_valid():
-        #return render_template('artists/new.html', artist=artist, errors=artist.generate_errors()), 400
+    if artist_repository.is_duplicate(name, genre):
+        return render_template('artists/new.html', artist=artist, errors=artist_repository.generate_errors()), 400
+    if not artist.is_valid():
+        return render_template('artists/new.html', artist=artist, errors=artist.generate_errors()), 400
 
-
-    artist = artist_repository.create(artist) #no longer returning none.
+    artist = artist_repository.create(artist) 
     print(f"Artist successfully created: {artist}")
     return redirect(f"/artists/{artist.id}")
 
@@ -117,14 +115,14 @@ def create_new_album():
     title = request.form.get('title')
     artist_name = request.form.get('artist_name')
     release_year = request.form.get('release_year')
-
+#TODO
     # FIND ALBUM name and ARTIST NAME for ALBUM -- no duplicates
 
     # FIND ARTIST_ID FOR ARTIST.
     # If no artist_name found, link to new_artist()
     artist_id = album_repository.find_artist_id_by_artist_name(artist_name)
     if artist_id == None:
-        return redirect(url_for('create_artist')) #show error message first??
+        return redirect(url_for('create_artist')) #TODO #show error message first??
     else:
     # Create new album
         album = Album(None, title, release_year, artist_id)

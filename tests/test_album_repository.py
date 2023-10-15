@@ -36,7 +36,7 @@ def test_get_single_record(db_connection):
     repository = AlbumRepository(db_connection)
 
     album = repository.find(3)
-    assert album == {"album_id": 3, "title": "Waterloo", "artist_name": "ABBA", "release_year": 1974}
+    assert album == {"album_id": 3, "title": "Waterloo", "artist_name": "ABBA", "artist_id": 2, "release_year": 1974}
 
 
 

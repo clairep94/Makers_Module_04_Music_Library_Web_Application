@@ -23,11 +23,12 @@ class AlbumRepository:
     # Find a single album by their id
     def find(self, id):
         rows = self._connection.execute(
-            'SELECT albums.id AS album_id, albums.title, artists.name as artist_name, albums.release_year FROM artists JOIN albums ON albums.artist_id = artists.id WHERE albums.id = %s', [id])
+            'SELECT albums.id AS album_id, albums.title, artists.name as artist_name, albums.artist_id, albums.release_year FROM artists JOIN albums ON albums.artist_id = artists.id WHERE albums.id = %s', [id])
         row = rows[0]
         return {"album_id": row["album_id"],
                 "title": row["title"],
                 "artist_name": row["artist_name"],
+                "artist_id": row["artist_id"],
                 "release_year": row["release_year"]}
 
     # Create a new album

@@ -15,6 +15,25 @@ class ArtistRepository:
             artists.append(item)
         return artists
 
+    # Check if the name and genre of the new artist already exists in the repository.
+    def is_duplicate(self, name, genre):
+        name = name.title()
+        genre = genre.title()
+        rows = self._connection.execute('SELECT name, genre from artists')
+
+        is_duplicate = False
+
+        new_artist = (name, genre)
+        for row in rows:
+            artist = (row["name"], row["genre"])
+            if new_artist == artist:
+                is_duplicate = True
+        return is_duplicate
+
+    # Generate errors if the artist about to be created is a duplicate.
+    def generate_errors(self):
+        return "Artist is already in database"
+
     # Find a single artist by their id
     def find(self, artist_id):
         rows = self._connection.execute(
