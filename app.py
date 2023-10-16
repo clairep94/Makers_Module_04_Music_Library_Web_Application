@@ -53,10 +53,12 @@ def create_new_artist():
 
     name = request.form.get('name')
     genre = request.form.get('genre') 
-
     artist = Artist(None, name, genre)
+
+    # Check if artist is a duplicate -- name and genre are the same as another artist entry in the db
     if artist_repository.is_duplicate(name, genre):
         return render_template('artists/new.html', artist=artist, errors=artist_repository.generate_errors()), 400
+    # Check if fields are blank
     if not artist.is_valid():
         return render_template('artists/new.html', artist=artist, errors=artist.generate_errors()), 400
 
@@ -115,19 +117,35 @@ def create_new_album():
     title = request.form.get('title')
     artist_name = request.form.get('artist_name')
     release_year = request.form.get('release_year')
-#TODO
-    # FIND ALBUM name and ARTIST NAME for ALBUM -- no duplicates
 
-    # FIND ARTIST_ID FOR ARTIST.
-    # If no artist_name found, link to new_artist()
+    # CHECK FOR EMPTY FIELDS:
+    def generate_field_errors(): #Generate corresponding errors if any fields are blank:
+        errors = []
+        if title == None or title == "":
+            errors.append("Title can't be blank")
+        if artist_name == None or artist_name == "":
+            errors.append("Artist can't be blank")
+        if release_year == None or release_year == "":
+            errors.append("Release year can't be blank")
+        return errors
+    field_errors = generate_field_errors()
+    if field_errors != []:
+        return render_template('albums/new.html', album=None, errors=', '.join(field_errors)), 400
+
+    # CHECK IF ARTIST EXISTS IN THE DB:
     artist_id = album_repository.find_artist_id_by_artist_name(artist_name)
     if artist_id == None:
-        return redirect(url_for('create_artist')) #TODO #show error message first??
-    else:
-    # Create new album
-        album = Album(None, title, release_year, artist_id)
-        album = album_repository.create(album) #no longer returning none.
-        print(f"Album successfully created: {album}")
+    # if not album_repository.artist_exists(artist_name):
+        return render_template('albums/new.html', album=None, errors=album_repository.generate_add_artist_first_error()), 400
+
+    # CHECK IF ALBUM IS ALREADY ADDED IN THE DB:
+    if album_repository.is_duplicate(title, artist_id):
+        return render_template('albums/new.html', album=None, errors=album_repository.generate_duplicate_error()), 400
+
+    # IF ALL PROJECTS PASS: 
+    album = Album(None, title, release_year, artist_id)
+    album = album_repository.create(album) 
+    print(f"Album successfully created: {album}")
     return redirect(f"/albums/{album.id}")
 
 

@@ -105,3 +105,12 @@ def test_find_artist_id_by_artist_name(db_connection):
     assert repository.find_artist_id_by_artist_name("The Beatles") == None
     assert repository.find_artist_id_by_artist_name("pixies") == 1
 
+'''
+When we call AlbumRepository#is_duplicate,
+When the album is already in the db, we get True. Else False.
+'''
+def test_is_duplicate(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = AlbumRepository(db_connection)
+    assert repository.is_duplicate("Doolittle", 1) == True
+    assert repository.is_duplicate("Heartworn", 5) == False

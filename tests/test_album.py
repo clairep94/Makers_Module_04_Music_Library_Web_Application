@@ -30,3 +30,4 @@ def test_albums_are_equal():
     assert album1 == album2
     # Try commenting out the `__eq__` method in lib/album.py
     # And see what happens when you run this test again.
+

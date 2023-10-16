@@ -20,6 +20,21 @@ class AlbumRepository:
             albums.append(item)
         return albums
     
+
+    # Check if album is a duplicate
+    def is_duplicate(self, album_title, artist_id):
+        album_title = album_title.title()
+
+        rows = self._connection.execute('SELECT title, artist_id from albums')
+        for row in rows:
+            if album_title == row["title"] and artist_id == row["artist_id"]:
+                return True
+        return False    
+    
+    # Generate error for having duplicate album in database
+    def generate_duplicate_error(self):
+        return "Album is already in database"
+
     # Find a single album by their id
     def find(self, id):
         rows = self._connection.execute(
@@ -48,11 +63,15 @@ class AlbumRepository:
         return None
 
 
-    # Find all artists and artist_ids
+    # Find artist id by artist name
     def find_artist_id_by_artist_name(self, artist_name):
         artist_name = artist_name.title()
         artist_row = self._connection.execute('SELECT id, name FROM artists WHERE name = %s', [artist_name])
         if artist_row == []:
-            return None
+            return None #Artist is not in the database.
         else:
             return artist_row[0]['id']
+        
+    # Generate error for not having artist in database
+    def generate_add_artist_first_error(self):
+        return "Artist for this album has not yet been added to the database. Please create new artist first."
