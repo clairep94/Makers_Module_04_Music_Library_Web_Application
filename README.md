@@ -1,69 +1,36 @@
-# Flask HTML Web & Database Project Starter
+# Music Library HTML Project
 
-This is a starter project for you to use to start your Flask HTML web & database
-projects.
+This is a simple CRUD project with Python and HTML aiming to demonstrate the following:
 
-It contains quite a lot of example code. You can use this to see how the various
-parts of the project work, or you can delete it and start from scratch.
+* TTD and OOP with Python and HTML
+* CRUD operations on a database using PostgresQL
+* HTTP Protocol
+* Flask and Jinja
 
-There are two videos to support:
+All artist and album names are linked to their respective pages wherever they show up for easy navigation across the site. Album creation is restricted to albums associated with existing artists in the database.
 
-* [A demonstration of setting up the project](https://www.youtube.com/watch?v=YStsRfMVx44&t=0s)
-* [A walkthrough of the project codebase](https://www.youtube.com/watch?v=YStsRfMVx44&t=314s) 
-
-## Setup
-
-```shell
-# Clone the repository to your local machine
-; git clone git@github.com:makersacademy/web-applications-in-python-project-starter-html.git YOUR_PROJECT_NAME
-
-# Or, if you don't have SSH keys set up
-; git clone https://github.com/makersacademy/web-applications-in-python-project-starter-html.git YOUR_PROJECT_NAME
-
-# Enter the directory
-; cd YOUR_PROJECT_NAME
-
-# Install dependencies and set up the virtual environment
-; pipenv install
-
-# Activate the virtual environment
-; pipenv shell
-
-# Install the virtual browser we will use for testing
-; playwright install
-# If you have problems with the above, contact your coach
-
-# Create a test and development database
-; createdb YOUR_PROJECT_NAME
-; createdb YOUR_PROJECT_NAME_test
-
-# Open lib/database_connection.py and change the database names
-; open lib/database_connection.py
-
-# Seed the development database (ensure you have run `pipenv shell` first)
-; python seed_dev_database.py
-
-# Run the tests (with extra logging)
-; pytest -sv
-
-# Run the app
-; python app.py
-# Now visit http://localhost:5001/emoji in your browser
-```
-
-If you would like to remove the example code:
-
-```shell
-; ./remove_example_code.sh
-```
+## Screenshots
 
 
-<!-- BEGIN GENERATED SECTION DO NOT EDIT -->
+### Homepage
 
----
+![homepage](./screenshots/homepage.png)
 
-**How was this resource?**  
-[😫](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fweb-applications-in-python-project-starter-html&prefill_File=README.md&prefill_Sentiment=😫) [😕](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fweb-applications-in-python-project-starter-html&prefill_File=README.md&prefill_Sentiment=😕) [😐](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fweb-applications-in-python-project-starter-html&prefill_File=README.md&prefill_Sentiment=😐) [🙂](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fweb-applications-in-python-project-starter-html&prefill_File=README.md&prefill_Sentiment=🙂) [😀](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fweb-applications-in-python-project-starter-html&prefill_File=README.md&prefill_Sentiment=😀)  
-Click an emoji to tell us.
+### Artists (all and single artist)
 
-<!-- END GENERATED SECTION DO NOT EDIT -->
+![All Artists](./screenshots/all_artists.png)
+![Pixies - Doolittle](./screenshots/single_artist.png)
+
+
+### Albums (all and single album)
+
+![All Albums](./screenshots/all_albums.png)
+![Pixies - Doolittle](./screenshots/single_album.png)
+
+### Creating a New Artist and Adding Albums
+
+![Create Artist](./screenshots/create_new_artist.png)
+![New Beatles Page](./screenshots/new_beatles_page.png)
+![Create Album](./screenshots/create_new_album.png)
+![New Album Page](./screenshots/new_album_page.png)
+![Updated Beatles Page](./screenshots/updated_beatles_page.png)
